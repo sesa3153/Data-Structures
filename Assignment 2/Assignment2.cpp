@@ -31,8 +31,14 @@ int main(int argc,const char** argv)
   int tracker = 0;
 
   int length;
-
+  
+  int length2;
+  
+  int location;
+  
   string temp;
+  
+  string word2;
 
   getStopWords(argv[3], ignoreWords);
 
@@ -41,12 +47,35 @@ int main(int argc,const char** argv)
   TomSawyer.open(argv[2]);
   if(TomSawyer.is_open())
   {
-    while (TomSawyer >> temp)
+    while (TomSawyer >> word2)
     {
-      
+      cout << word2 <<endl;
+          if (!isStopWord(word2, ignoreWords))
+          {
+            length = sizeof(uniqueWords)/sizeof(uniqueWords[0]);
+            if (length < tracker)
+            {
+              resize(uniqueWords, length);
+            }
+            length2 = sizeof(uniqueWords)/sizeof(uniqueWords[0]);
+
+            location = loca(word2, uniqueWords, length2);
+
+            if(!checker(word2, uniqueWords, length2))
+            {
+              uniqueWords[tracker].word = word2;
+              uniqueWords[tracker].count = 1;
+              tracker++;
+            }
+            else
+            {
+              uniqueWords[location].count++;
+            }
+            cout << uniqueWords[tracker].count <<endl;
+          }
     }
   }
-cout << unique[0] <<endl;
+
 
 
 }
@@ -97,4 +126,30 @@ void resize(string arr[], int length)
   }
   delete[] arr;
   arr = arr2;
+}
+
+int loca(string word2, wordItem array[], int length)
+{
+  int loc;
+  for (int g = 0; g < length; g++)
+  {
+    if (word2 == array[g].word)
+    {
+      loc = g;
+    }
+  }
+  return loc;
+}
+
+bool checker(string word, wordItem uniqueWords[], int length)
+{
+  bool val = 0;
+  for (int i = 0; i < length; i++)
+  {
+    if (word == uniqueWords[i].word)
+    {
+      val = 1;
+    }
+  }
+  return val;
 }
