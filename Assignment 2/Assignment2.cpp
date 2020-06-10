@@ -12,6 +12,8 @@ void resize(wordItem *& arr,int length);
 void getStopWords(const char *ignoreWordFileName, string ignoreWords[]);
 bool isStopWord(string word, string ignoreWords[]);
 int getTotalNumberNonStopWords(wordItem uniqueWords[], int length);
+void arraySort(wordItem uniqueWords[], int length);
+void printNext10(wordItem uniqueWords[], int N, int totalNumWords);
 bool checker(string word, wordItem uniqueWords[], int length);
 int loca(string word2, wordItem array[], int length,int tracker);
 
@@ -28,19 +30,19 @@ int main(int argc,const char** argv)
 
   string ignoreWords[50];
 
-  string unique[100];
-
   int tracker = 0;
 
-  int length;
+  int length = 100;
   
-  int length2;
+  int howmanytimes = 0;
   
   int location;
   
   string temp;
   
   string word2;
+  
+  wordItem* uniqueWords = new wordItem[length];
 
   getStopWords(argv[3], ignoreWords);
 
@@ -76,9 +78,22 @@ int main(int argc,const char** argv)
           }
     }
   }
+  
+  TomSawyer.close();
+
+int numberOfuniqueWords = getTotalNumberNonStopWords(uniqueWords, length);
+
+arraySort(uniqueWords, length);
+
+cout << "Array Doubled: " << howmanytimes << endl;
+cout << "#"<<endl;
+cout << "Unique non-common words: " << tracker << endl;
+cout << "#" << endl;
+cout << "Total non-common words: " << numberOfuniqueWords << endl;
+printNext10(uniqueWords, stoi(argv[1]), numberOfuniqueWords);
 
 
-
+  return 0;
 }
 
 // Functions
@@ -120,7 +135,7 @@ bool isStopWord(string word, string ignoreWords[])
 
 void resize(wordItem *& arr, int length)
 {
-  string arr2[2*length];
+  wordItem *arr2 = new wordItem[length*2];
   for (int i; i<length; i++)
   {
     arr2[i] = arr[i];
@@ -129,9 +144,52 @@ void resize(wordItem *& arr, int length)
   arr = arr2;
 }
 
-int loca(string word2, wordItem array[], int length)
+int getTotalNumberNonStopWords(wordItem uniqueWords[], int length)
 {
-  int loc;
+
+  int number = 0;
+  for (int i = 0; i <length; i++)
+  {
+    number = number + uniqueWords[i].count;
+  }
+  return number;
+}
+
+void arraySort(wordItem uniqueWords[], int length)
+{
+
+  int j;
+  int key;
+  wordItem key2;
+  for (int i = 1; i < length; i++)
+  {
+    key = uniqueWords[i].count;
+    key2 = uniqueWords[i];
+    j = i - 1;
+    while (j >= 0 && key > uniqueWords[j].count)
+    {
+      uniqueWords[j+1] = uniqueWords[j];
+      j = j - 1;
+    }
+    uniqueWords[j+1] = key2;
+  }
+}
+
+void printNext10(wordItem uniqueWords[], int N, int totalNumWords)
+{
+  float prob;
+  cout << "Probability of the next " << N <<" words from rank 25" << endl;
+  cout << "----------------------------------------------" <<endl;
+  for (int i = 0; i < N; i++)
+  {
+    prob = (float) (uniqueWords[i].count)/totalNumWords;
+    cout << prob << " - " << uniqueWords[i].word << endl;
+  }
+}
+
+int loca(string word2, wordItem array[], int length, int tracker)
+{
+  int loc = tracker;
   for (int g = 0; g < length; g++)
   {
     if (word2 == array[g].word)
