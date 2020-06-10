@@ -8,10 +8,12 @@ struct wordItem{
   int count;
 };
 
-void resize(string arr[],int length);
+void resize(wordItem *& arr,int length);
 void getStopWords(const char *ignoreWordFileName, string ignoreWords[]);
 bool isStopWord(string word, string ignoreWords[]);
 int getTotalNumberNonStopWords(wordItem uniqueWords[], int length);
+bool checker(string word, wordItem uniqueWords[], int length);
+int loca(string word2, wordItem array[], int length,int tracker);
 
 int main(int argc,const char** argv)
 {
@@ -53,15 +55,15 @@ int main(int argc,const char** argv)
           if (!isStopWord(word2, ignoreWords))
           {
             length = sizeof(uniqueWords)/sizeof(uniqueWords[0]);
-            if (length < tracker)
+            if (length <= tracker)
             {
               resize(uniqueWords, length);
+              length = 2*length;
             }
-            length2 = sizeof(uniqueWords)/sizeof(uniqueWords[0]);
 
-            location = loca(word2, uniqueWords, length2);
+            location = loca(word2, uniqueWords, length);
 
-            if(!checker(word2, uniqueWords, length2))
+            if(!checker(word2, uniqueWords, length))
             {
               uniqueWords[tracker].word = word2;
               uniqueWords[tracker].count = 1;
@@ -71,7 +73,6 @@ int main(int argc,const char** argv)
             {
               uniqueWords[location].count++;
             }
-            cout << uniqueWords[tracker].count <<endl;
           }
     }
   }
@@ -117,7 +118,7 @@ bool isStopWord(string word, string ignoreWords[])
 }
 
 
-void resize(string arr[], int length)
+void resize(wordItem *& arr, int length)
 {
   string arr2[2*length];
   for (int i; i<length; i++)
