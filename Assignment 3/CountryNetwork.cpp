@@ -31,3 +31,19 @@ CountryNetwork::loadDefaultSetup()
   InsertCountry(head++, "China");
   InsertCountry(head++, "Austraila");
 }
+
+CountryNetwork::searchNetwork(string countryName)
+{
+  list<Country>::iterator it;
+  for (it = Countries.begin(); it !=Countries.end(); it++)
+  {
+    if (*it == countryName)
+    {
+      return it;
+    }
+    else
+    {
+      return NULL;
+    }
+  }
+}
