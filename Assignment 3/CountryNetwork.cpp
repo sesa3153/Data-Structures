@@ -21,3 +21,13 @@ CountryNetwork::InsertCountry(Country* previous, string countryName)
     cout << "adding: " << countryName << "(prev: " << previous->name << ")" << endl;
   }
 }
+
+CountryNetwork::loadDefaultSetup()
+{
+  InsertCountry(head, "United States");
+  InsertCountry(head++, "Canada");
+  InsertCountry(head++, "Brazil");
+  InsertCountry(head++, "India");
+  InsertCountry(head++, "China");
+  InsertCountry(head++, "Austraila");
+}
