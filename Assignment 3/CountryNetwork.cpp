@@ -36,4 +36,35 @@ void CountryNetwork::insertCountry(Country* previous, string countryName)
 
 };
 
+void CountryNetwork::loadDefaultSetup()
+{
 
+  insertCountry(head, "United States");
+
+  insertCountry(head, "Canada");
+
+  insertCountry(head, "Brazil");
+
+  insertCountry(head, "India");
+
+  insertCountry(head, "China");
+
+  insertCountry(head, "Austraila");
+};
+
+Country* CountryNetwork::searchNetwork(string countryName)
+{
+  Country* temp2 = NULL;
+  Country* temp3 = NULL;
+  temp2 = head;
+  while (temp2->next != NULL)
+  {
+    if(temp2->name == countryName)
+    {
+      temp3 = temp2;
+    }
+  }
+  delete temp2;
+
+  return temp3;
+};
