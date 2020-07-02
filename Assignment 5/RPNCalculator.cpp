@@ -110,3 +110,65 @@ Operand* RPNCalculator::peek() {
   }
 
 };
+
+/* INPUT: a string data that contains the operator
+   Modify: deletes the nodes with the operands and pushed their result
+   OUTPUT: a boolean value determining whether the computation was successful */
+bool RPNCalculator::compute(string symbol) {
+
+  if (isEmpty()) {
+
+    cout << "err: not enough operands" << endl;
+
+    return 0;
+
+  } else {
+
+    float number1 = stackHead->number;
+
+    pop();
+
+    if(stackHead == NULL) {
+
+      cout << "err: not enough operands" << endl;
+
+      push(number1);
+
+      return 0;
+
+    } else {
+
+        float number2 = stackHead->number;
+
+        pop();
+
+        float result;
+
+        if(symbol == "+") {
+
+          result = number1 + number2;
+
+          push(result);
+
+          return 1;
+
+        } else if (symbol == "*") {
+
+          result = number1*number2;
+
+          push(result);
+
+          return 1;
+
+        } else {
+
+          cout << "err: invalid operation" << endl;
+
+          return 0;
+
+        }
+
+    }
+
+  }
+};
