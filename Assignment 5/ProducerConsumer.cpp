@@ -66,3 +66,52 @@ void ProducerConsumer::enqueue(string item) {
   }
 
 };
+
+
+/* INPUT: No input
+   Modify: Removes an element from the front of the queue
+   OUTPUT: No output */
+void ProducerConsumer::dequeue() {
+  if (isEmpty()) {
+
+    cout << "Queue empty, cannot dequeue an item" << endl;
+
+  } else if (queueFront == queueEnd) {
+
+      queue[queueFront] = "";
+
+  } else {
+
+    queue[queueFront] = "";
+    queueFront = (queueFront + 1)%SIZE;
+
+  }
+
+};
+
+nt ProducerConsumer::queueSize() {
+
+  int length = queueEnd-queueFront;
+
+  return length;
+
+};
+
+/* INPUT: No input
+   Modify: No modification
+   OUPUT: Returns the element in the front */
+string ProducerConsumer::peek() {
+
+  if (isEmpty()) {
+
+    cout << "Queue is empty" << endl;
+
+    return "";
+
+  } else {
+
+    return queue[queueFront];
+
+  }
+
+};
